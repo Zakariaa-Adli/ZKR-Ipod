@@ -15,7 +15,7 @@ export default function OfflinePage() {
       }}
     >
       <h1 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>
-        iPod.js
+        ZKR iPod
       </h1>
       <p style={{ fontSize: "1rem", opacity: 0.7 }}>
         You&apos;re offline. Connect to the internet to start listening.

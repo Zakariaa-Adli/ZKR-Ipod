@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 
-import { KenBurns, LoadingScreen } from "@/components";
+import KenBurns from "@/components/KenBurns";
+import LoadingScreen from "@/components/LoadingScreen";
 import { motion } from "motion/react";
 import { useSettings } from "@/hooks";
 import styled from "styled-components";
@@ -49,9 +50,9 @@ const MusicPreview = () => {
         <>
           {!isLoading && !albums ? (
             <LoadingScreen backgroundColor="linear-gradient(180deg, #B1B5C0 0%, #686E7A 100%)" />
-          ) : (
+          ) : artworkUrls.length > 0 ? (
             <KenBurns urls={artworkUrls} />
-          )}
+          ) : null}
         </>
       ) : (
         <div>

@@ -25,18 +25,16 @@ const StatusEmoji = styled.span`
   opacity: 0.8;
 `;
 
-const MetadataContainer = styled.div`
+const MetadataContainer = styled.div<{ $hasArtwork?: boolean }>`
   display: flex;
   height: 70%;
   padding: 0 ${Unit.XS};
   perspective: 1000px;
+  align-items: center;
+  justify-content: ${({ $hasArtwork }) => ($hasArtwork ? "flex-start" : "center")};
 `;
 
-interface ArtworkContainerProps {
-  $isHidden?: boolean;
-}
-
-const ArtworkContainer = styled.div<ArtworkContainerProps>`
+const ArtworkContainer = styled.div`
   height: 8em;
   width: 8em;
   margin: auto ${Unit.SM};
@@ -51,7 +49,6 @@ const ArtworkContainer = styled.div<ArtworkContainerProps>`
     );
   transform-style: preserve-3d;
   transform: rotateY(35deg);
-  opacity: ${(props) => (props.$isHidden ? 0 : 1)};
 `;
 
 const Artwork = styled.img`
@@ -60,10 +57,16 @@ const Artwork = styled.img`
   border: 1px solid #f3f3f3;
 `;
 
-const InfoContainer = styled.div`
+const InfoContainer = styled.div<{ $centered?: boolean }>`
   flex: 1;
   margin: auto 0 auto clamp(0.5rem, 5vw, 0.5rem);
   min-width: 0;
+  ${({ $centered }) =>
+    $centered &&
+    `
+    text-align: center;
+    margin: auto;
+  `}
 `;
 
 const Text = styled.div`
@@ -120,21 +123,25 @@ const NowPlaying = ({ hideArtwork }: Props) => {
         {repeatMode === "one" && <StatusEmoji>🔂</StatusEmoji>}
         {repeatMode === "all" && <StatusEmoji>🔁</StatusEmoji>}
       </StatusBar>
-      <MetadataContainer>
-        <ArtworkContainer $isHidden={hideArtwork}>
-          <Artwork
-            src={artworkUrl}
-            alt={
-              nowPlayingItem?.name
-                ? `${nowPlayingItem.name} album artwork`
-                : "Album artwork"
-            }
-          />
-        </ArtworkContainer>
-        <InfoContainer>
+      <MetadataContainer $hasArtwork={!hideArtwork && !!nowPlayingItem}>
+        {!hideArtwork && !!nowPlayingItem && (
+          <ArtworkContainer>
+            <Artwork
+              src={artworkUrl}
+              alt={
+                nowPlayingItem.name
+                  ? `${nowPlayingItem.name} album artwork`
+                  : "Album artwork"
+              }
+            />
+          </ArtworkContainer>
+        )}
+        <InfoContainer $centered={!nowPlayingItem || hideArtwork}>
           <Text>{nowPlayingItem?.name || "No Track Playing"}</Text>
-          <Subtext>{nowPlayingItem?.artist || "—"}</Subtext>
-          <Subtext>{nowPlayingItem?.album || "—"}</Subtext>
+          <Subtext>
+            {nowPlayingItem?.artist || "Select a song to start listening"}
+          </Subtext>
+          {nowPlayingItem?.album && <Subtext>{nowPlayingItem.album}</Subtext>}
         </InfoContainer>
       </MetadataContainer>
       <ControlsContainer>

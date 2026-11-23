@@ -89,7 +89,7 @@ type ViewContextStateType = [
 export const ViewContext = createContext<ViewContextStateType>([
   {
     viewStack: [],
-    headerTitle: "iPod.js",
+    headerTitle: "ZKR iPod",
     preview: SplitScreenPreview.Music,
   },
   () => {},

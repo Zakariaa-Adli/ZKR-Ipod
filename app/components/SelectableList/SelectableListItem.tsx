@@ -5,7 +5,6 @@ import { SelectableListOption } from ".";
 import { useAudioPlayer } from "@/hooks";
 import { useMemo } from "react";
 import * as Utils from "@/utils";
-import arrowRight from "@public/arrow_right.svg";
 import volumeFull from "@public/volume_full.svg";
 
 const LabelContainer = styled.div`
@@ -64,6 +63,18 @@ const Icon = styled.img<{ $size?: number }>`
   height: ${({ $size }) => ($size ? `${$size}px` : "auto")};
 `;
 
+/** Right-pointing navigation chevron shown on the selected menu item. */
+const Chevron = styled.span`
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  margin-left: auto;
+  margin-right: 8px;
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(-45deg);
+`;
+
 interface Props {
   option: SelectableListOption;
   isActive: boolean;
@@ -96,7 +107,7 @@ const SelectableListItem = ({ option, isActive }: Props) => {
         <Label>{option.label}</Label>
         {option.sublabel && <Sublabel>{option.sublabel}</Sublabel>}
       </LabelContainer>
-      {isActive && <Icon src={arrowRight.src} />}
+      {isActive && <Chevron aria-hidden />}
       {isPlaying && !isActive && (
         <Icon src={volumeFull.src} $size={16} style={{ marginRight: 8 }} />
       )}

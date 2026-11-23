@@ -1,83 +1,62 @@
-import { SelectableList, SelectableListOption } from "@/components";
+"use client";
+
 import { defineView } from "@/components/views/defineView";
 import { SplitScreenPreview } from "@/components/previews";
-import { useSelectableList } from "@/hooks";
 import styled from "styled-components";
 import { Unit } from "@/utils/constants";
-import { APP_URL } from "@/utils/constants/api";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const Image = styled.img`
-  height: ${Unit.XL};
-  width: auto;
-  margin: ${Unit.XS};
-`;
-
-const TitleContainer = styled.div`
-  display: flex;
-  justify-content: center;
   align-items: center;
-  padding: ${Unit.MD} ${Unit.MD} 0;
+  justify-content: center;
+  height: 100%;
+  padding: ${Unit.MD};
 `;
 
-const Title = styled.h3`
-  margin: 0;
-  font-size: 16px;
-  font-weight: 900;
+const LogoImage = styled.img`
+  height: 3.5em;
+  width: 3.5em;
+  border-radius: 10px;
+  margin-bottom: ${Unit.SM};
+  display: block;
 `;
 
-const Description = styled.h3`
-  margin: 0 0 ${Unit.MD};
-  font-size: 14px;
-  font-weight: normal;
+const ProductName = styled.h2`
+  margin: 0 0 ${Unit.XS};
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+`;
+
+const Tagline = styled.p`
+  margin: 0 0 ${Unit.XS};
+  font-size: 12px;
+  opacity: 0.65;
   text-align: center;
+  line-height: 1.4;
 `;
 
-const ListContainer = styled.div`
-  flex: 1;
+const Attribution = styled.p`
+  margin: 0;
+  font-size: 11px;
+  opacity: 0.5;
+  text-align: center;
+  letter-spacing: 0.2px;
 `;
 
 const _AboutView = () => {
-  const options: SelectableListOption[] = [
-    {
-      type: "link",
-      label: "GitHub Repo",
-      url: "https://github.com/tvillarete/ipod-classic-js",
-    },
-    {
-      type: "link",
-      label: "My Website",
-      url: "http://tannerv.com",
-    },
-    {
-      type: "link",
-      label: "LinkedIn",
-      url: "https://linkedin.com/in/tvillarete",
-    },
-  ];
-
-  const { activeIndex: scrollIndex } = useSelectableList({ viewId: "about", options });
-
   return (
     <Container>
-      <ListContainer>
-        <TitleContainer>
-          <Image alt="ZKR iPod" src="/logo/zkr-pure-white-on-dark.png" />
-          <Title>ZKR iPod</Title>
-        </TitleContainer>
-        <Description>
-          Made with{" "}
-          <span aria-label="heart" role="img">
-            ❤️
-          </span>{" "}
-          by Tanner Villarete
-        </Description>
-        <SelectableList options={options} activeIndex={scrollIndex} />
-      </ListContainer>
+      <LogoImage
+        alt="ZKR logo"
+        src="/logo/zkr-pure-white-on-dark.png"
+      />
+      <ProductName>ZKR iPod</ProductName>
+      <Tagline>
+        An iPod Classic-inspired music player built for the web.
+      </Tagline>
+      <Attribution>Designed &amp; developed by ZKR</Attribution>
     </Container>
   );
 };

@@ -1,7 +1,6 @@
 import { motion } from "motion/react";
 import styled from "styled-components";
 import { Unit } from "@/utils/constants";
-import { APP_URL } from "@/utils/constants/api";
 
 const Container = styled(motion.div)`
   display: flex;
@@ -9,34 +8,39 @@ const Container = styled(motion.div)`
   align-items: center;
   justify-content: center;
   height: 100%;
+  padding: 0 ${Unit.SM};
   color: white;
+  text-align: center;
   background: linear-gradient(180deg, #b1b5c0 0%, #686e7a 100%);
 `;
 
 const Image = styled.img`
-  height: 4em;
-  width: 4em;
-  margin: ${Unit.XS};
+  height: 3.5em;
+  width: 3.5em;
+  margin-bottom: ${Unit.XS};
+  border-radius: 8px;
 `;
 
 const Text = styled.h3`
-  margin: 0;
-  font-size: 16px;
-  font-weight: 500;
+  margin: 0 0 2px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
 `;
 
-const Subtext = styled.h3`
+const Subtext = styled.p`
   margin: 0;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 11px;
+  opacity: 0.85;
+  line-height: 1.3;
 `;
 
 const SettingsPreview = () => {
   return (
     <Container>
-      <Image alt="React logo" src={`${APP_URL}/react_logo.svg`} />
-      <Text>iPod.js</Text>
-      <Subtext>by Tanner V</Subtext>
+      <Image alt="ZKR logo" src="/logo/zkr-pure-white-on-dark.png" />
+      <Text>ZKR iPod</Text>
+      <Subtext>Designed & developed by ZKR</Subtext>
     </Container>
   );
 };
