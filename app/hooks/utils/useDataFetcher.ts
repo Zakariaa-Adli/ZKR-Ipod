@@ -39,7 +39,7 @@ export const resolveArtworkUrl = (cover?: string): string => {
 };
 
 export const trackToSong = (t: Track, index = 0): MediaApi.Song => {
-  const title = (t as any).title || (t as any).name || "Untitled Track";
+  const title = t.title || "Untitled Track";
   const artist = t.artist || "Unknown Artist";
   const album = t.album || "Unknown Album";
   const artworkUrl = resolveArtworkUrl(t.cover);
@@ -49,9 +49,9 @@ export const trackToSong = (t: Track, index = 0): MediaApi.Song => {
     name: title,
     artistName: artist,
     albumName: album,
-    trackNumber: index + 1,
+    trackNumber: t.trackNumber ?? index + 1,
     duration: t.duration || 0,
-    url: resolveAudioUrl(t.src || (t as any).url || ""),
+    url: resolveAudioUrl(t.src),
     artwork: { url: artworkUrl },
   };
 };
@@ -73,28 +73,42 @@ export const getLocalAlbums = (): MediaApi.Album[] => {
 
   tracks.forEach((track, index) => {
     const song = trackToSong(track, index);
-    const albumKey = (track.album || "Unknown Album").trim();
+    const albumName = (track.album || "Unknown Album").trim();
+    const albumKey = albumName.toLowerCase();
 
     if (!albumMap.has(albumKey)) {
       albumMap.set(albumKey, {
-        albumName: albumKey,
+        albumName,
         artistName: track.artist || "Unknown Artist",
         artworkUrl: resolveArtworkUrl(track.cover),
         songs: [],
       });
     }
 
-    albumMap.get(albumKey)!.songs.push(song);
+    const entry = albumMap.get(albumKey)!;
+    if (!entry.artworkUrl || entry.artworkUrl === "/default_album_artwork.png") {
+      entry.artworkUrl = resolveArtworkUrl(track.cover);
+    }
+    entry.songs.push(song);
   });
 
-  return Array.from(albumMap.entries()).map(([key, data]) => ({
-    id: encodeURIComponent(key.toLowerCase()),
-    name: data.albumName,
-    artistName: data.artistName,
-    artwork: { url: data.artworkUrl },
-    url: "",
-    songs: data.songs,
-  }));
+  return Array.from(albumMap.values()).map((data) => {
+    const songs = [...data.songs].sort((a, b) => {
+      const aTrack = a.trackNumber ?? Number.MAX_SAFE_INTEGER;
+      const bTrack = b.trackNumber ?? Number.MAX_SAFE_INTEGER;
+      if (aTrack !== bTrack) return aTrack - bTrack;
+      return a.name.localeCompare(b.name);
+    });
+
+    return {
+      id: encodeURIComponent(data.albumName.toLowerCase()),
+      name: data.albumName,
+      artistName: data.artistName,
+      artwork: { url: data.artworkUrl },
+      url: "",
+      songs,
+    };
+  });
 };
 
 export const getLocalArtists = (): MediaApi.Artist[] => {

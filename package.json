@@ -63,5 +63,18 @@
       "sharp",
       "unrs-resolver"
     ]
-  }
+  },
+  "description": "",
+  "main": "serwist.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zakariaa-Adli/ZKR-Ipod.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zakariaa-Adli/ZKR-Ipod/issues"
+  },
+  "homepage": "https://github.com/Zakariaa-Adli/ZKR-Ipod#readme"
 }

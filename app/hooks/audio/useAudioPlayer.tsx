@@ -11,8 +11,7 @@ import {
 
 import { useEventListener, useHapticFeedback } from "@/hooks";
 import { IpodEvent } from "@/utils/events";
-import { getLocalSongs, trackToSong } from "@/hooks/utils/useDataFetcher";
-import { tracks } from "@public/songs/catalog";
+import { getLocalSongs } from "@/hooks/utils/useDataFetcher";
 
 export const defaultPlaybackInfoState = {
   isPlaying: false,

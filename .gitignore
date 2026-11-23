@@ -19,6 +19,10 @@ public/sw.js.map
 # TypeScript
 tsconfig.tsbuildinfo
 
+# Default music media (kept locally; excluded from public redistribution until explicit permission is established)
+/public/songs/music/
+/public/songs/artwork/
+
 # misc
 .DS_Store
 .env.local
